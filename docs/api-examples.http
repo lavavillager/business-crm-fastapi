@@ -1,0 +1,88 @@
+### Примеры API-запросов (для VS Code REST Client / JetBrains HTTP Client)
+@base = http://localhost:8000/api/v1
+
+### 1. Логин администратора (демо-данные)
+# @name login
+POST {{base}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "admin@crm.example.com",
+  "password": "admin12345"
+}
+
+### Сохраняем токен из ответа
+@token = {{login.response.body.access_token}}
+
+### 2. Текущий пользователь
+GET {{base}}/auth/me
+Authorization: Bearer {{token}}
+
+### 3. Создать клиента
+POST {{base}}/clients
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "name": "Анна Смирнова",
+  "phone": "+79001112233",
+  "email": "anna@example.com",
+  "comment": "VIP-клиент"
+}
+
+### 4. Поиск клиентов
+GET {{base}}/clients?q=Анна&limit=10&offset=0
+Authorization: Bearer {{token}}
+
+### 5. Создать сотрудника
+POST {{base}}/employees
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "name": "Елена Парикмахер",
+  "position": "Мастер",
+  "specialization": "Стрижки",
+  "work_schedule": "Пн-Пт 09:00-18:00"
+}
+
+### 6. Создать услугу
+POST {{base}}/services
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "name": "Женская стрижка",
+  "price": "1500.00",
+  "duration_minutes": 60
+}
+
+### 7. Создать запись
+POST {{base}}/appointments
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "client_id": 1,
+  "employee_id": 1,
+  "service_id": 1,
+  "scheduled_at": "2026-07-01T10:00:00+00:00",
+  "status": "new"
+}
+
+### 8. Фильтрация записей по статусу и датам
+GET {{base}}/appointments?status=confirmed&date_from=2026-06-01T00:00:00Z
+Authorization: Bearer {{token}}
+
+### 9. Подтвердить запись
+PATCH {{base}}/appointments/1
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "status": "confirmed"
+}
+
+### 10. История действий (admin/manager)
+GET {{base}}/activity?limit=20
+Authorization: Bearer {{token}}
