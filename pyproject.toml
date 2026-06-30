@@ -1,0 +1,14 @@
+[project]
+name = "business-crm-fastapi"
+version = "1.0.0"
+description = "CRM-система для малого бизнеса на FastAPI"
+requires-python = ">=3.12"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+filterwarnings = ["ignore::DeprecationWarning"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"

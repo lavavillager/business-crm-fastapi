@@ -1,0 +1,6 @@
+# Гарантируем LF для shell-скриптов (иначе entrypoint ломается в Linux-контейнере)
+*.sh text eol=lf
+scripts/entrypoint.sh text eol=lf
+
+# Прочие текстовые файлы — нормализация переводов строк
+* text=auto
